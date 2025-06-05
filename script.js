@@ -32,15 +32,14 @@ const questions = [
   },
 ];
 
-// Render questions and choices, restore saved answers
 function renderQuestions() {
-  questionsElement.innerHTML = ""; // clear before rendering
+  questionsElement.innerHTML = "";
 
   questions.forEach((q, i) => {
     const questionDiv = document.createElement("div");
 
     const questionText = document.createElement("p");
-    questionText.textContent = `${i + 1}. ${q.question}`;
+    questionText.textContent = q.question;
     questionDiv.appendChild(questionText);
 
     q.choices.forEach((choice, j) => {
@@ -86,6 +85,8 @@ function displaySavedScore() {
   const savedScore = localStorage.getItem("score");
   if (savedScore !== null) {
     scoreDiv.textContent = `Your score is ${savedScore} out of ${questions.length}.`;
+  } else {
+    scoreDiv.textContent = "";
   }
 }
 
