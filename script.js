@@ -2,6 +2,7 @@ const questionsElement = document.getElementById("questions");
 const submitBtn = document.getElementById("submit");
 const scoreDiv = document.getElementById("score");
 
+// Load saved answers from sessionStorage
 let userAnswers = JSON.parse(sessionStorage.getItem("progress")) || {};
 
 const questions = [
@@ -51,11 +52,21 @@ function renderQuestions() {
 
       if (userAnswers[i] === choice) {
         choiceInput.checked = true;
+        // ADD for Cypress compatibility
+        choiceInput.setAttribute("checked", "true");
       }
 
       choiceInput.addEventListener("change", () => {
         userAnswers[i] = choice;
         sessionStorage.setItem("progress", JSON.stringify(userAnswers));
+
+        // Clear all other radios in the same group
+        document
+          .getElementsByName(`question-${i}`)
+          .forEach((input) => input.removeAttribute("checked"));
+
+        // Set attribute for Cypress check
+        choiceInput.setAttribute("checked", "true");
       });
 
       const choiceLabel = document.createElement("label");
